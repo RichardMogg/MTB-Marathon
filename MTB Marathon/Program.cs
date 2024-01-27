@@ -6,34 +6,44 @@ namespace MTB_Marathon
 {
     internal class Program
     {
-        public int sum;
-        private static Racer[] racers = [];
+        //public int sum;
+        //private static Racer[] racers = [];
 
         private static readonly string FilepathOriginData = @"Data\MTB-Marathon.csv";
         private static string SavingFilePath = @"D:\Programieren mit Franky\MTB Marathon\MTB Marathon\Data\MTB-SortedByStartnumber.csv";
-        static void Main(string[] args)
+
+        private static void Main(string[] args)
         {
-            racers = Loader.LoadRacer(FilepathOriginData);
+            var racers = Loader.LoadRacer(FilepathOriginData);
 
-            foreach (var Racer in racers)
+            Console.WriteLine(@"NR  Name       Jahrgang  Nation Racetime        RaceTimeInSec");
+
+            //old
+            //foreach (var Racer in racers)
+            //{
+            //    var results = racers.OrderBy(p => p.Startnumber);
+
+            // falsch
+            //    foreach (var result in results)
+            //    {
+            //        Console.WriteLine(result);
+            //    }
+            //}
+
+            foreach (var racer in racers.OrderBy(r => r.RaceTimeInSec).Take(3))
             {
-                Console.WriteLine(@"NR  Name       Jahrgang  Nation Racetime        RaceTimeInSec");
+                //var results = racers.OrderBy(p => p.Startnumber);
 
-                var results = racers.OrderBy(p => p.Startnumber);
-
-                foreach (var result in results)
-                {
-                    Console.WriteLine(result);
-                }
+                Console.WriteLine(racer);
             }
-            Console.WriteLine($"Die durchschnittliche Rennzeit beträgt: {Average()}");
 
-            SaveToCsvFile(racers, SavingFilePath);
+            Console.WriteLine($"Die durchschnittliche Rennzeit beträgt: {Average(racers)}");
+
+            //SaveToCsvFile(racers, SavingFilePath);
         }
 
-        static double Average()
+        private static double Average(Racer[] racers)
         {
-
             double sum = 0;
             for (int i = 0; i < racers.Length; i++)
             {
@@ -42,16 +52,10 @@ namespace MTB_Marathon
             sum = sum / racers.Length;
 
             return Math.Round(sum, 2);
-
-
-
-
-
-
         }
+
         private static void SaveToCsvFile(Racer[] racers, string saveingFilePath)
         {
-
             var results = racers.OrderBy(p => p.Startnumber);
             List<string> lines = new List<string>();
             foreach (var result in results)
@@ -59,12 +63,7 @@ namespace MTB_Marathon
                 lines.Add(result.ToCsv());
             }
 
-
             File.WriteAllLines(saveingFilePath, lines);
         }
     }
 }
-
-
-
-
