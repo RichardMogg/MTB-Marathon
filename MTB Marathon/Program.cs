@@ -30,13 +30,16 @@ namespace MTB_Marathon
             //    }
             //}
 
+            var count = 0;
             foreach (var racer in racers.OrderBy(r => r.RaceTimeInSec).Take(3))
             {
                 //var results = racers.OrderBy(p => p.Startnumber);
 
+                Console.Write($"{++count}.:\t");
                 Console.WriteLine(racer);
             }
 
+            Console.WriteLine();
             Console.WriteLine($"Die durchschnittliche Rennzeit beträgt: {Average(racers)}");
 
             //SaveToCsvFile(racers, SavingFilePath);
